@@ -55,7 +55,19 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Build production package
+        run: |
+          mkdir -p plugin-check-build/seo-for-generatepress
+          rsync -a --exclude-from=.distignore ./ plugin-check-build/seo-for-generatepress/
+
       - name: Run Plugin Check
         uses: wordpress/plugin-check-action@v1
         with:
-          build-dir: './'
+          build-dir: './plugin-check-build/seo-for-generatepress'
+          slug: 'seo-for-generatepress'
+          categories: |
+            accessibility
+            general
+            performance
+            security
+          exclude-checks: 'plugin_updater'
