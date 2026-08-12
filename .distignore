@@ -8,6 +8,9 @@
 /vendor
 README.md
 TESTING.md
+PRIVACY.md
+RELEASING.md
+SECURITY.md
 composer.json
 composer.lock
 phpcs.xml.dist

@@ -3,7 +3,7 @@
 
 define( 'ABSPATH', __DIR__ . '/' );
 define( 'HOUR_IN_SECONDS', 3600 );
-define( 'SEOGP_VERSION', '0.4.3' );
+define( 'SEOGP_VERSION', '0.4.4' );
 define( 'SEOGP_FILE', dirname( __DIR__ ) . '/seo-for-generatepress.php' );
 
 class WP_Post {
@@ -33,9 +33,12 @@ function seogp_test_reset() {
 		'doc_title'   => 'Default title – Example Site',
 		'bloginfo'    => array( 'name' => 'Example Site', 'description' => 'Example tagline', 'charset' => 'UTF-8' ),
 		'theme_mods'  => array(),
+		'attachments' => array(),
+		'images'      => array(),
 		'post_types'  => array( 10 => 'post' ),
 		'authors'     => array( 2 => array( 'display_name' => 'Test Author', 'description' => 'Author biography' ) ),
 		'transients'  => array(),
+		'settings_errors' => array(),
 		'http'        => null,
 	);
 }
@@ -48,7 +51,7 @@ function absint( $value ) { return abs( (int) $value ); }
 function get_site_option( $key, $default = false ) { return $default; }
 function is_multisite() { return false; }
 function is_front_page() { return 'front' === $GLOBALS['seogp_test']['view']; }
-function is_page() { return in_array( $GLOBALS['seogp_test']['view'], array( 'page', 'front-page' ), true ); }
+function is_page() { return in_array( $GLOBALS['seogp_test']['view'], array( 'page', 'front', 'front-page' ), true ); }
 function is_author() { return 'author' === $GLOBALS['seogp_test']['view']; }
 function is_admin() { return 'admin' === $GLOBALS['seogp_test']['view']; }
 function is_feed() { return 'feed' === $GLOBALS['seogp_test']['view']; }
@@ -87,11 +90,17 @@ function esc_attr( $text ) { return htmlspecialchars( (string) $text, ENT_QUOTES
 function esc_url( $url ) { return $url; }
 function get_locale() { return 'en_US'; }
 function did_action() { return 1; }
-function wp_get_attachment_image_src() { return false; }
+function wp_get_attachment_image_src( $id ) { return isset( $GLOBALS['seogp_test']['images'][ $id ] ) ? $GLOBALS['seogp_test']['images'][ $id ] : false; }
+function wp_attachment_is_image( $id ) { return ! empty( $GLOBALS['seogp_test']['attachments'][ $id ] ); }
+function wp_http_validate_url( $url ) { return false !== filter_var( $url, FILTER_VALIDATE_URL ); }
+function add_settings_error( $setting, $code, $message, $type ) { $GLOBALS['seogp_test']['settings_errors'][] = compact( 'setting', 'code', 'message', 'type' ); }
+function __( $text ) { return $text; }
+function esc_html( $text ) { return htmlspecialchars( (string) $text, ENT_QUOTES, 'UTF-8' ); }
 function plugin_basename() { return 'seo-for-generatepress/seo-for-generatepress.php'; }
 function untrailingslashit( $value ) { return rtrim( $value, '/\\' ); }
 function get_site_transient( $key ) { return isset( $GLOBALS['seogp_test']['transients'][ $key ] ) ? $GLOBALS['seogp_test']['transients'][ $key ] : false; }
 function set_site_transient( $key, $value, $expiration ) { $GLOBALS['seogp_test']['transients'][ $key ] = $value; return true; }
+function get_transient( $key ) { return get_site_transient( $key ); }
 function wp_safe_remote_get() { return $GLOBALS['seogp_test']['http']; }
 function is_wp_error( $value ) { return $value instanceof WP_Error; }
 function wp_remote_retrieve_response_code( $response ) { return isset( $response['response']['code'] ) ? $response['response']['code'] : 0; }
@@ -107,3 +116,4 @@ require_once dirname( __DIR__ ) . '/includes/class-content-controls.php';
 require_once dirname( __DIR__ ) . '/includes/class-metadata.php';
 require_once dirname( __DIR__ ) . '/includes/class-schema.php';
 require_once dirname( __DIR__ ) . '/includes/class-updater.php';
+require_once dirname( __DIR__ ) . '/includes/class-sitemaps.php';
