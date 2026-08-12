@@ -1,0 +1,31 @@
+.seogp-editor-panel .components-base-control {
+	margin-bottom: 20px;
+}
+
+.seogp-editor-panel .components-textarea-control__input {
+	min-height: 110px;
+}
+
+.seogp-character-count {
+	margin: -16px 0 22px;
+	color: #757575;
+	font-size: 12px;
+	text-align: right;
+}
+
+.seogp-classic-field {
+	margin-bottom: 20px;
+}
+
+.seogp-classic-field:last-child {
+	margin-bottom: 0;
+}
+
+.seogp-classic-field label {
+	display: block;
+	margin-bottom: 6px;
+}
+
+.seogp-classic-field textarea {
+	min-height: 100px;
+}

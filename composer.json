@@ -1,0 +1,25 @@
+{
+  "name": "angelablake/seo-for-generatepress",
+  "description": "Lightweight, opinionated SEO tools for GeneratePress websites.",
+  "type": "wordpress-plugin",
+  "license": "GPL-2.0-or-later",
+  "require-dev": {
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "phpcompatibility/phpcompatibility-wp": "^2.1",
+    "wp-coding-standards/wpcs": "^3.0"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    },
+    "sort-packages": true
+  },
+  "scripts": {
+    "test": "php tests/run.php",
+    "phpcs": "phpcs --standard=phpcs.xml.dist",
+    "check": [
+      "@test",
+      "@phpcs"
+    ]
+  }
+}
