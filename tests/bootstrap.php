@@ -3,7 +3,7 @@
 
 define( 'ABSPATH', __DIR__ . '/' );
 define( 'HOUR_IN_SECONDS', 3600 );
-define( 'SEOGP_VERSION', '0.4.4' );
+define( 'SEOGP_VERSION', '0.4.5' );
 define( 'SEOGP_FILE', dirname( __DIR__ ) . '/seo-for-generatepress.php' );
 
 class WP_Post {
@@ -35,6 +35,9 @@ function seogp_test_reset() {
 		'theme_mods'  => array(),
 		'attachments' => array(),
 		'images'      => array(),
+		'attachment_titles' => array(),
+		'featured_image_id' => 0,
+		'avatars'     => array(),
 		'post_types'  => array( 10 => 'post' ),
 		'authors'     => array( 2 => array( 'display_name' => 'Test Author', 'description' => 'Author biography' ) ),
 		'transients'  => array(),
@@ -66,19 +69,20 @@ function get_queried_object_id() { return $GLOBALS['seogp_test']['object_id']; }
 function get_queried_object() { return $GLOBALS['seogp_test']['object']; }
 function get_post_meta( $id, $key, $single = false ) { return isset( $GLOBALS['seogp_test']['meta'][ $id ][ $key ] ) ? $GLOBALS['seogp_test']['meta'][ $id ][ $key ] : ''; }
 function get_post_type( $id ) { return isset( $GLOBALS['seogp_test']['post_types'][ $id ] ) ? $GLOBALS['seogp_test']['post_types'][ $id ] : ''; }
-function get_permalink() { return 'https://example.com/test-post/'; }
+function get_permalink() { return 'page' === $GLOBALS['seogp_test']['view'] ? 'https://example.com/test-page/' : 'https://example.com/test-post/'; }
 function home_url( $path = '' ) { return 'https://example.com' . $path; }
 function get_author_posts_url( $id ) { return 'https://example.com/author/test/'; }
 function get_query_var( $key ) { return isset( $GLOBALS['seogp_test']['query_vars'][ $key ] ) ? $GLOBALS['seogp_test']['query_vars'][ $key ] : 0; }
 function get_pagenum_link( $page ) { return 'https://example.com/page/' . $page . '/'; }
 function wp_get_document_title() { return $GLOBALS['seogp_test']['doc_title']; }
-function get_the_title() { return $GLOBALS['seogp_test']['title']; }
+function get_the_title( $id = 0 ) { return $id && isset( $GLOBALS['seogp_test']['attachment_titles'][ $id ] ) ? $GLOBALS['seogp_test']['attachment_titles'][ $id ] : $GLOBALS['seogp_test']['title']; }
 function get_the_excerpt() { return $GLOBALS['seogp_test']['excerpt']; }
 function get_bloginfo( $key ) { return isset( $GLOBALS['seogp_test']['bloginfo'][ $key ] ) ? $GLOBALS['seogp_test']['bloginfo'][ $key ] : ''; }
 function post_password_required() { return false; }
 function get_theme_mod( $key ) { return isset( $GLOBALS['seogp_test']['theme_mods'][ $key ] ) ? $GLOBALS['seogp_test']['theme_mods'][ $key ] : 0; }
-function has_post_thumbnail() { return false; }
-function get_avatar_url() { return ''; }
+function has_post_thumbnail() { return ! empty( $GLOBALS['seogp_test']['featured_image_id'] ); }
+function get_post_thumbnail_id() { return $GLOBALS['seogp_test']['featured_image_id']; }
+function get_avatar_url( $id ) { return isset( $GLOBALS['seogp_test']['avatars'][ $id ] ) ? $GLOBALS['seogp_test']['avatars'][ $id ] : ''; }
 function get_the_author_meta( $key, $id ) { return isset( $GLOBALS['seogp_test']['authors'][ $id ][ $key ] ) ? $GLOBALS['seogp_test']['authors'][ $id ][ $key ] : ''; }
 function get_the_date() { return '2026-08-11T12:00:00+00:00'; }
 function get_the_modified_date() { return '2026-08-12T12:00:00+00:00'; }

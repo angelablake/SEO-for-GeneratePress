@@ -1,0 +1,33 @@
+{
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+            "@type": "WebSite",
+            "@id": "https://example.com/#website",
+            "url": "https://example.com/",
+            "name": "Example Site",
+            "publisher": {
+                "@id": "https://example.com/#identity"
+            }
+        },
+        {
+            "@type": "Organization",
+            "@id": "https://example.com/#identity",
+            "name": "Example Site",
+            "url": "https://example.com/"
+        },
+        {
+            "@type": "WebPage",
+            "@id": "https://example.com/#webpage",
+            "url": "https://example.com/",
+            "name": "Default title – Example Site",
+            "isPartOf": {
+                "@id": "https://example.com/#website"
+            },
+            "about": {
+                "@id": "https://example.com/#identity"
+            },
+            "description": "Example tagline"
+        }
+    ]
+}
