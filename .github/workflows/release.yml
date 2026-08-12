@@ -1,0 +1,72 @@
+name: Publish release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: plugin-release
+  cancel-in-progress: false
+
+jobs:
+  release:
+    name: Build and publish versioned release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          coverage: none
+          tools: composer:v2
+
+      - name: Install quality tools
+        run: composer install --no-interaction --no-progress
+
+      - name: Run automated checks
+        run: composer check
+
+      - name: Read plugin version
+        id: version
+        shell: bash
+        run: |
+          version="$(sed -n "s/^define( 'SEOGP_VERSION', '\([^']*\)' );/\1/p" seo-for-generatepress.php)"
+          test -n "$version"
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "tag=v$version" >> "$GITHUB_OUTPUT"
+
+      - name: Check for an existing release
+        id: existing
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: |
+          if gh release view "$TAG" >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build installation ZIP
+        if: steps.existing.outputs.exists == 'false'
+        run: |
+          mkdir -p build/seo-for-generatepress
+          rsync -a --exclude-from=.distignore ./ build/seo-for-generatepress/
+          cd build
+          zip -qr seo-for-generatepress.zip seo-for-generatepress
+          unzip -t seo-for-generatepress.zip
+
+      - name: Publish GitHub release
+        if: steps.existing.outputs.exists == 'false'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+        run: gh release create "$TAG" build/seo-for-generatepress.zip --target "$GITHUB_SHA" --generate-notes --title "$TAG"

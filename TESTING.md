@@ -2,7 +2,7 @@
 
 ## Automated checks
 
-Run `php tests/run.php` to test title overrides, noindex output, WordPress and Jetpack sitemap exclusions, description fallbacks, and SEO-plugin conflict suppression. Run `composer check` after `composer install` to add WordPress coding standards and PHP 7.4+ compatibility checks.
+Run `php tests/run.php` to test title overrides, noindex output, WordPress and Jetpack sitemap exclusions, description fallbacks, SEO-plugin conflict suppression, and GitHub release validation. Run `composer check` after `composer install` to add WordPress coding standards and PHP 7.4+ compatibility checks.
 
 The GitHub Actions workflow runs these checks automatically on supported PHP versions and also runs the official WordPress Plugin Check action. The remaining sections are exploratory checks retained for future live-site verification; they are not required for routine automated releases.
 

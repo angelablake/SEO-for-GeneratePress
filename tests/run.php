@@ -8,6 +8,7 @@ use AngelaBlake\SEOForGeneratePress\Content_Controls;
 use AngelaBlake\SEOForGeneratePress\Metadata;
 use AngelaBlake\SEOForGeneratePress\Schema;
 use AngelaBlake\SEOForGeneratePress\Settings;
+use AngelaBlake\SEOForGeneratePress\Updater;
 
 $tests = array();
 
@@ -107,6 +108,53 @@ seogp_test( 'standard posts output a connected BlogPosting graph', function () {
 	seogp_assert_same( array( 'WebSite', 'Organization', 'WebPage', 'BlogPosting', 'Person' ), $types );
 	seogp_assert_same( 'https://example.com/test-post/#webpage', $document['@graph'][3]['mainEntityOfPage']['@id'] );
 	seogp_assert_same( 'https://example.com/#identity', $document['@graph'][3]['publisher']['@id'] );
+} );
+
+seogp_test( 'published GitHub release supplies a native WordPress update', function () {
+	seogp_test_reset();
+	$GLOBALS['seogp_test']['http'] = array(
+		'response' => array( 'code' => 200 ),
+		'body'     => json_encode(
+			array(
+				'tag_name'  => 'v0.5.0',
+				'html_url'  => 'https://github.com/angelablake/SEO-for-GeneratePress/releases/tag/v0.5.0',
+				'draft'     => false,
+				'prerelease' => false,
+				'assets'    => array(
+					array(
+						'name'                 => 'seo-for-generatepress.zip',
+						'browser_download_url' => 'https://github.com/angelablake/SEO-for-GeneratePress/releases/download/v0.5.0/seo-for-generatepress.zip',
+					),
+				),
+			)
+		),
+	);
+	$update = ( new Updater() )->filter_update( false, array( 'UpdateURI' => Updater::REPOSITORY_URL ), 'seo-for-generatepress/seo-for-generatepress.php', array( 'en_US' ) );
+	seogp_assert_same( '0.5.0', $update['version'] );
+	seogp_assert_same( 'seo-for-generatepress', $update['slug'] );
+	seogp_assert_same( false, $update['autoupdate'] );
+} );
+
+seogp_test( 'updater rejects a release without the trusted ZIP asset', function () {
+	seogp_test_reset();
+	$GLOBALS['seogp_test']['http'] = array(
+		'response' => array( 'code' => 200 ),
+		'body'     => json_encode(
+			array(
+				'tag_name' => 'v0.5.0',
+				'html_url' => 'https://github.com/angelablake/SEO-for-GeneratePress/releases/tag/v0.5.0',
+				'assets'   => array(),
+			)
+		),
+	);
+	$update = ( new Updater() )->filter_update( false, array( 'UpdateURI' => Updater::REPOSITORY_URL ), 'seo-for-generatepress/seo-for-generatepress.php', array() );
+	seogp_assert_same( false, $update );
+} );
+
+seogp_test( 'updater leaves other GitHub-hosted plugins untouched', function () {
+	seogp_test_reset();
+	$update = ( new Updater() )->filter_update( false, array( 'UpdateURI' => 'https://github.com/example/plugin' ), 'example/plugin.php', array() );
+	seogp_assert_same( false, $update );
 } );
 
 $failures = 0;

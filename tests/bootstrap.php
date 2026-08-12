@@ -2,6 +2,9 @@
 /** Minimal WordPress test doubles for isolated plugin behavior tests. */
 
 define( 'ABSPATH', __DIR__ . '/' );
+define( 'HOUR_IN_SECONDS', 3600 );
+define( 'SEOGP_VERSION', '0.4.3' );
+define( 'SEOGP_FILE', dirname( __DIR__ ) . '/seo-for-generatepress.php' );
 
 class WP_Post {
 	public $ID;
@@ -32,6 +35,8 @@ function seogp_test_reset() {
 		'theme_mods'  => array(),
 		'post_types'  => array( 10 => 'post' ),
 		'authors'     => array( 2 => array( 'display_name' => 'Test Author', 'description' => 'Author biography' ) ),
+		'transients'  => array(),
+		'http'        => null,
 	);
 }
 
@@ -83,9 +88,22 @@ function esc_url( $url ) { return $url; }
 function get_locale() { return 'en_US'; }
 function did_action() { return 1; }
 function wp_get_attachment_image_src() { return false; }
+function plugin_basename() { return 'seo-for-generatepress/seo-for-generatepress.php'; }
+function untrailingslashit( $value ) { return rtrim( $value, '/\\' ); }
+function get_site_transient( $key ) { return isset( $GLOBALS['seogp_test']['transients'][ $key ] ) ? $GLOBALS['seogp_test']['transients'][ $key ] : false; }
+function set_site_transient( $key, $value, $expiration ) { $GLOBALS['seogp_test']['transients'][ $key ] = $value; return true; }
+function wp_safe_remote_get() { return $GLOBALS['seogp_test']['http']; }
+function is_wp_error( $value ) { return $value instanceof WP_Error; }
+function wp_remote_retrieve_response_code( $response ) { return isset( $response['response']['code'] ) ? $response['response']['code'] : 0; }
+function wp_remote_retrieve_body( $response ) { return isset( $response['body'] ) ? $response['body'] : ''; }
+function esc_url_raw( $url ) { return filter_var( $url, FILTER_VALIDATE_URL ) ? $url : ''; }
+function wp_parse_url( $url, $component = -1 ) { return parse_url( $url, $component ); }
+
+class WP_Error {}
 
 require_once dirname( __DIR__ ) . '/includes/class-settings.php';
 require_once dirname( __DIR__ ) . '/includes/class-compatibility.php';
 require_once dirname( __DIR__ ) . '/includes/class-content-controls.php';
 require_once dirname( __DIR__ ) . '/includes/class-metadata.php';
 require_once dirname( __DIR__ ) . '/includes/class-schema.php';
+require_once dirname( __DIR__ ) . '/includes/class-updater.php';
