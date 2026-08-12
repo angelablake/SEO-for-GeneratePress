@@ -3,6 +3,7 @@
 /.gitignore
 /.distignore
 /build
+/plugin-check-build
 /tests
 /vendor
 README.md
