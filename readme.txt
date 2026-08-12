@@ -1,6 +1,7 @@
 === SEO for GeneratePress ===
 Tags: seo, generatepress, metadata, schema, performance
 Requires at least: 6.5
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 0.4.3
 License: GPLv2 or later
