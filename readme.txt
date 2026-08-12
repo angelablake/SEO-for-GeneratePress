@@ -3,7 +3,7 @@ Tags: seo, generatepress, metadata, schema, performance
 Requires at least: 6.5
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.4.4
+Stable tag: 0.4.5
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -31,13 +31,20 @@ The settings screen remains accessible without GeneratePress, but GeneratePress-
 
 = What structured data does this version output? =
 
-Version 0.4.4 expands automated coverage and project documentation while retaining the same focused metadata, schema, indexing, sitemap, and GitHub update behavior.
+Version 0.4.5 adds exact-output regression coverage while retaining the same focused metadata, schema, indexing, sitemap, and GitHub update behavior.
 
 = What happens when I deactivate or delete the plugin? =
 
 Deactivation always preserves plugin settings. Deletion also preserves settings unless you explicitly enable data deletion on the General screen before deleting the plugin.
 
 == Changelog ==
+
+= 0.4.5 =
+
+* Added exact metadata snapshots for the homepage, posts, pages, and author archives.
+* Added exact JSON-LD graph snapshots for every supported view.
+* Added comprehensive Jetpack and recognized SEO-plugin conflict tests.
+* Added regression coverage confirming overrides and noindex preserve expected metadata and schema.
 
 = 0.4.4 =
 

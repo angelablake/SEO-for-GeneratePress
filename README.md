@@ -8,7 +8,7 @@ The project is independent and is not affiliated with, endorsed by, or sponsored
 
 ## Current status
 
-Version 0.4.4 adds automatic SEO output and focused per-content controls:
+Version 0.4.5 adds automatic SEO output and focused per-content controls:
 
 - a top-level SEO admin menu registered after GenerateBlocks;
 - an SEO tab in the GeneratePress dashboard;
@@ -35,7 +35,7 @@ See `TESTING.md` for the release acceptance checklist.
 
 ## Automated quality checks
 
-Run `php tests/run.php` for isolated behavioral tests. After installing the development dependencies with Composer, run `composer check` for the tests plus release-blocking security, internationalization, naming, and PHP compatibility checks. GitHub Actions runs those checks, the behavioral tests across PHP 7.4, 8.1, and 8.3, and the official WordPress Plugin Check action on every push and pull request.
+Run `php tests/run.php` for isolated behavioral and exact-output snapshot tests. After installing the development dependencies with Composer, run `composer check` for the tests plus release-blocking security, internationalization, naming, and PHP compatibility checks. GitHub Actions runs those checks, the behavioral tests across PHP 7.4, 8.1, and 8.3, and the official WordPress Plugin Check action on every push and pull request.
 
 Pushing a new version to `main` runs the release workflow. If that version does not already have a release, the workflow validates the source, builds a clean `seo-for-generatepress.zip`, tags the commit, and publishes the ZIP as a GitHub release asset.
 
