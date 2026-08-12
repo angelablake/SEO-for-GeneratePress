@@ -1,12 +1,14 @@
 # SEO for GeneratePress
 
+[![Plugin quality](https://github.com/angelablake/SEO-for-GeneratePress/actions/workflows/quality.yml/badge.svg)](https://github.com/angelablake/SEO-for-GeneratePress/actions/workflows/quality.yml)
+
 SEO for GeneratePress is a lightweight, opinionated SEO plugin designed for GeneratePress websites.
 
 The project is independent and is not affiliated with, endorsed by, or sponsored by GeneratePress or EDGE22 Studios Ltd. GeneratePress is a trademark of its respective owner.
 
 ## Current status
 
-Version 0.4.3 adds automatic SEO output and focused per-content controls:
+Version 0.4.4 adds automatic SEO output and focused per-content controls:
 
 - a top-level SEO admin menu registered after GenerateBlocks;
 - an SEO tab in the GeneratePress dashboard;
@@ -36,6 +38,8 @@ See `TESTING.md` for the release acceptance checklist.
 Run `php tests/run.php` for isolated behavioral tests. After installing the development dependencies with Composer, run `composer check` for the tests plus release-blocking security, internationalization, naming, and PHP compatibility checks. GitHub Actions runs those checks, the behavioral tests across PHP 7.4, 8.1, and 8.3, and the official WordPress Plugin Check action on every push and pull request.
 
 Pushing a new version to `main` runs the release workflow. If that version does not already have a release, the workflow validates the source, builds a clean `seo-for-generatepress.zip`, tags the commit, and publishes the ZIP as a GitHub release asset.
+
+See `RELEASING.md` for the complete release process, `SECURITY.md` for vulnerability reporting, and `PRIVACY.md` for the plugin's data and update behavior.
 
 ## Requirements
 

@@ -2,7 +2,7 @@
 /**
  * Plugin Name:       SEO for GeneratePress
  * Description:       Lightweight, opinionated SEO tools designed for GeneratePress websites.
- * Version:           0.4.3
+ * Version:           0.4.4
  * Requires at least: 6.5
  * Requires PHP:      7.4
  * Author:            Angela Blake
@@ -19,7 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'SEOGP_VERSION', '0.4.3' );
+define( 'SEOGP_VERSION', '0.4.4' );
 define( 'SEOGP_FILE', __FILE__ );
 define( 'SEOGP_PATH', plugin_dir_path( __FILE__ ) );
 define( 'SEOGP_URL', plugin_dir_url( __FILE__ ) );

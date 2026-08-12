@@ -1,15 +1,28 @@
 <?php
-/** GitHub release updates. @package SEOForGeneratePress */
+/**
+ * GitHub release updates.
+ *
+ * @package SEOForGeneratePress
+ */
 
 namespace AngelaBlake\SEOForGeneratePress;
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /** Connects WordPress's native plugin updater to published GitHub releases. */
 final class Updater {
+	/** GitHub repository URL used by the Update URI header. */
 	const REPOSITORY_URL = 'https://github.com/angelablake/SEO-for-GeneratePress';
+
+	/** GitHub API endpoint for the latest published release. */
 	const RELEASE_API_URL = 'https://api.github.com/repos/angelablake/SEO-for-GeneratePress/releases/latest';
+
+	/** Exact release asset accepted as an update package. */
 	const ASSET_NAME = 'seo-for-generatepress.zip';
+
+	/** Site-transient key for release metadata. */
 	const CACHE_KEY = 'seogp_github_release';
 
 	/** Register the hostname-specific WordPress update hook. */
@@ -52,7 +65,11 @@ final class Updater {
 		);
 	}
 
-	/** @return array<string, string>|false */
+	/**
+	 * Fetch and validate the latest release metadata.
+	 *
+	 * @return array<string, string>|false
+	 */
 	private function get_latest_release() {
 		$cached = get_site_transient( self::CACHE_KEY );
 		if ( is_array( $cached ) ) {
@@ -88,13 +105,22 @@ final class Updater {
 			return $this->cache_unavailable();
 		}
 
-		$release = array( 'version' => $version, 'url' => $url, 'package' => $package );
+		$release = array(
+			'version' => $version,
+			'url'     => $url,
+			'package' => $package,
+		);
 		set_site_transient( self::CACHE_KEY, $release, 12 * HOUR_IN_SECONDS );
 
 		return $release;
 	}
 
-	/** @param array<int, array<string, mixed>> $assets Release assets. @return string */
+	/**
+	 * Find the expected ZIP in the release assets.
+	 *
+	 * @param array<int, array<string, mixed>> $assets Release assets.
+	 * @return string
+	 */
 	private function find_package_url( $assets ) {
 		foreach ( $assets as $asset ) {
 			if ( empty( $asset['name'] ) || self::ASSET_NAME !== $asset['name'] || empty( $asset['browser_download_url'] ) ) {
@@ -113,7 +139,11 @@ final class Updater {
 		return '';
 	}
 
-	/** Cache a failed check briefly. @return false */
+	/**
+	 * Cache a failed check briefly.
+	 *
+	 * @return false
+	 */
 	private function cache_unavailable() {
 		set_site_transient( self::CACHE_KEY, array( 'unavailable' => true ), HOUR_IN_SECONDS );
 		return false;
