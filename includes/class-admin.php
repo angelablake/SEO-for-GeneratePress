@@ -300,6 +300,7 @@ final class Admin {
 			set_transient( Sitemaps::DISCOVERY_TRANSIENT, $discovered, 6 * HOUR_IN_SECONDS );
 		}
 
+		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Applying a WordPress core filter.
 		if ( $is_public && (bool) apply_filters( 'wp_sitemaps_enabled', true ) ) {
 			$sitemaps[] = array(
 				'label' => $this->sitemaps->is_fallback_active() ? __( 'WordPress fallback', 'seo-for-generatepress' ) : __( 'WordPress', 'seo-for-generatepress' ),

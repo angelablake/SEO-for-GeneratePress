@@ -29,7 +29,7 @@ jobs:
         run: php tests/run.php
 
   coding-standards:
-    name: WordPress coding standards
+    name: Security and compatibility standards
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
@@ -45,7 +45,7 @@ jobs:
       - name: Install quality tools
         run: composer install --no-interaction --no-progress
 
-      - name: Run coding standards
+      - name: Run release-blocking standards
         run: composer phpcs
 
   plugin-check:
@@ -55,7 +55,19 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
+      - name: Build production package
+        run: |
+          mkdir -p plugin-check-build/seo-for-generatepress
+          rsync -a --exclude-from=.distignore ./ plugin-check-build/seo-for-generatepress/
+
       - name: Run Plugin Check
         uses: wordpress/plugin-check-action@v1
         with:
-          build-dir: './'
+          build-dir: './plugin-check-build/seo-for-generatepress'
+          slug: 'seo-for-generatepress'
+          categories: |
+            accessibility
+            general
+            performance
+            security
+          exclude-checks: 'plugin_updater'

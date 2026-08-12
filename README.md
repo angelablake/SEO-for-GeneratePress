@@ -6,7 +6,7 @@ The project is independent and is not affiliated with, endorsed by, or sponsored
 
 ## Current status
 
-Version 0.4.2 adds automatic SEO output and focused per-content controls:
+Version 0.4.3 adds automatic SEO output and focused per-content controls:
 
 - a top-level SEO admin menu registered after GenerateBlocks;
 - an SEO tab in the GeneratePress dashboard;
@@ -25,14 +25,17 @@ Version 0.4.2 adds automatic SEO output and focused per-content controls:
 - conflict-safe schema behavior when another common SEO plugin is active;
 - WordPress sitemap, robots.txt, and search-visibility status;
 - automatic native WordPress sitemap fallback when no other provider is detected;
-- opt-in data removal when the plugin is deleted; and
-- graceful behavior when GeneratePress is inactive.
+- opt-in data removal when the plugin is deleted;
+- graceful behavior when GeneratePress is inactive; and
+- native WordPress updates from tested, published GitHub releases.
 
 See `TESTING.md` for the release acceptance checklist.
 
 ## Automated quality checks
 
-Run `php tests/run.php` for isolated behavioral tests. After installing the development dependencies with Composer, run `composer check` for both the tests and WordPress coding standards. GitHub Actions also runs the tests across PHP 7.4, 8.1, and 8.3, WordPress coding standards, PHP compatibility checks, and the official WordPress Plugin Check action on every push and pull request.
+Run `php tests/run.php` for isolated behavioral tests. After installing the development dependencies with Composer, run `composer check` for the tests plus release-blocking security, internationalization, naming, and PHP compatibility checks. GitHub Actions runs those checks, the behavioral tests across PHP 7.4, 8.1, and 8.3, and the official WordPress Plugin Check action on every push and pull request.
+
+Pushing a new version to `main` runs the release workflow. If that version does not already have a release, the workflow validates the source, builds a clean `seo-for-generatepress.zip`, tags the commit, and publishes the ZIP as a GitHub release asset.
 
 ## Requirements
 

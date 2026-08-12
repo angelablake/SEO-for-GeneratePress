@@ -130,6 +130,7 @@ final class Content_Controls {
 				'titleMeta'       => self::TITLE_META,
 				'descriptionMeta' => self::DESCRIPTION_META,
 				'noindexMeta'     => self::NOINDEX_META,
+				/* translators: %d is the current meta-description character count. */
 				'characters'      => __( '%d characters', 'seo-for-generatepress' ),
 			)
 		);

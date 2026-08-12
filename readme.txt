@@ -1,8 +1,9 @@
 === SEO for GeneratePress ===
 Tags: seo, generatepress, metadata, schema, performance
 Requires at least: 6.5
+Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.4.2
+Stable tag: 0.4.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,13 +31,19 @@ The settings screen remains accessible without GeneratePress, but GeneratePress-
 
 = What structured data does this version output? =
 
-Version 0.4.2 outputs connected structured data and automatic metadata, with title, description, and search-visibility controls for individual posts and pages. If a known SEO plugin is detected, SEO for GeneratePress suppresses its output and editor controls to avoid conflicts.
+Version 0.4.3 outputs connected structured data and automatic metadata, with title, description, and search-visibility controls for individual posts and pages. It can also update through tested, published releases from the project's public GitHub repository.
 
 = What happens when I deactivate or delete the plugin? =
 
 Deactivation always preserves plugin settings. Deletion also preserves settings unless you explicitly enable data deletion on the General screen before deleting the plugin.
 
 == Changelog ==
+
+= 0.4.3 =
+
+* Added self-contained updates through published GitHub releases.
+* Added strict release-asset validation and cached, failure-safe update checks.
+* Added automated GitHub release packaging after quality checks pass.
 
 = 0.4.2 =
 

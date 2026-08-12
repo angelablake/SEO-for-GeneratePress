@@ -66,11 +66,13 @@ final class Plugin {
 		$environment      = new Environment();
 		$compatibility    = new Compatibility();
 		$sitemaps         = new Sitemaps();
+		$updater          = new Updater();
 		$content_controls = new Content_Controls( $compatibility );
 		$admin            = new Admin( $environment, $settings, $compatibility, $sitemaps );
 
 		$settings->register_hooks();
 		$sitemaps->register_hooks();
+		$updater->register_hooks();
 		$content_controls->register_hooks();
 		$admin->register_hooks();
 

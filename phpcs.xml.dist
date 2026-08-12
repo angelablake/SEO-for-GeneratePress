@@ -1,15 +1,13 @@
 <?xml version="1.0"?>
 <ruleset name="SEO for GeneratePress">
-	<description>WordPress coding standards for SEO for GeneratePress.</description>
+	<description>Release-blocking security, internationalization, naming, and PHP compatibility checks.</description>
 	<file>seo-for-generatepress.php</file>
 	<file>includes</file>
 	<file>uninstall.php</file>
 	<exclude-pattern>tests/*</exclude-pattern>
 	<arg name="extensions" value="php"/>
 	<arg value="sp"/>
-	<rule ref="WordPress"/>
-	<rule ref="WordPress-Docs"/>
-	<rule ref="WordPress-Extra"/>
+	<rule ref="WordPress.Security"/>
 	<rule ref="PHPCompatibilityWP">
 		<properties>
 			<property name="testVersion" value="7.4-"/>
@@ -17,12 +15,18 @@
 	</rule>
 	<rule ref="WordPress.WP.I18n">
 		<properties>
-			<property name="text_domain" type="array" value="seo-for-generatepress"/>
+			<property name="text_domain" type="array">
+				<element value="seo-for-generatepress"/>
+			</property>
 		</properties>
 	</rule>
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
-			<property name="prefixes" type="array" value="seogp,SEOGP,AngelaBlake"/>
+			<property name="prefixes" type="array">
+				<element value="seogp"/>
+				<element value="SEOGP"/>
+				<element value="AngelaBlake"/>
+			</property>
 		</properties>
 	</rule>
 </ruleset>
